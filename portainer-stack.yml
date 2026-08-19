@@ -1,0 +1,45 @@
+version: "2.4"
+
+services:
+  registry:
+    image: ovelayos/docker-registry-wd-ex4100:3.1.1-bullseye
+    container_name: registry
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - /mnt/HD/HD_a2/docker/registry:/var/lib/registry
+
+  registry-ui:
+    image: ovelayos/docker-registry-ui-wd-ex4100:2.6.0-bullseye-r2
+    container_name: registry-ui
+    restart: unless-stopped
+    ports:
+      - "5005:80"
+    environment:
+      NGINX_PROXY_PASS_URL: "http://registry:5000"
+      NGINX_RESOLVER: "127.0.0.11"
+      SINGLE_REGISTRY: "true"
+      REGISTRY_URL: ""
+      REGISTRY_TITLE: "OsCrisCloud Docker Registry"
+      DOCKER_REGISTRY_UI_TITLE: "OsCrisCloud Docker Registry"
+      PULL_URL: "192.168.178.130:5000"
+      DELETE_IMAGES: "true"
+      SHOW_CONTENT_DIGEST: "true"
+      SHOW_CATALOG_NB_TAGS: "true"
+      SHOW_TAG_HISTORY: "true"
+      CATALOG_ELEMENTS_LIMIT: "1000"
+      CATALOG_DEFAULT_EXPANDED: "false"
+      CATALOG_MIN_BRANCHES: "1"
+      CATALOG_MAX_BRANCHES: "1"
+      TAGLIST_PAGE_SIZE: "100"
+      TAGLIST_ORDER: "alpha-asc;num-desc"
+      REGISTRY_SECURED: "false"
+      USE_CONTROL_CACHE_HEADER: "false"
+      DEFAULT_REGISTRIES: ""
+      READ_ONLY_REGISTRIES: "false"
+      HISTORY_CUSTOM_LABELS: ""
+      ENABLE_VERSION_NOTIFICATION: "false"
+      THEME: "auto"
+    depends_on:
+      - registry
