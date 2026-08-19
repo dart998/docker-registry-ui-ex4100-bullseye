@@ -1,89 +1,60 @@
 # docker-registry-ui-ex4100-bullseye
 
-Docker Registry + Docker Registry UI adaptados para WD My Cloud EX4100 ARMv7 / My Cloud OS 5.
+Joxit Docker Registry UI 2.6.0 adapted for the WD My Cloud EX4100 (ARMv7 / My Cloud OS 5) with a Debian Bullseye runtime.
 
-## Incluye
+This repository contains the working UI build used on OsCrisCloud, including branding, automatic light/dark theme support, favicon, and a retry patch for transient `/tags/list` failures seen on the EX4100.
 
-- Docker Distribution Registry 3.1.1 sobre Debian Bullseye
-- Joxit Docker Registry UI 2.6.0 sobre Debian Bullseye
-- Branding OsCrisCloud (logo y favicon)
-- Tema claro/oscuro automático
-- Parche de reintento para fallos transitorios de `/tags/list`
-- Stack completo para Portainer CE
-- Script PowerShell para compilar y publicar ambas imágenes ARMv7
-
-## Estructura
+## Docker image
 
 ```text
-registry/
-  Dockerfile
-  config.yml
-
-ui/
-  Dockerfile
-  apply-branding.py
-  entrypoint.sh
-  favicon.ico
-  oscriscloud-registry-favicon.png
-  oscriscloud-registry-logo.png
-
-build-images.ps1
-portainer-stack.yml
-README.md
+ovelayos/docker-registry-ui-wd-ex4100:2.6.0-bullseye-r2
 ```
 
-## Construir y publicar las imágenes
+## Build and push
 
-Desde Windows PowerShell:
+From Windows PowerShell with Docker Desktop / Buildx:
 
 ```powershell
-.\build-images.ps1
+.\build-and-push.ps1
 ```
 
-Publica:
+The script publishes:
 
 ```text
-ovelayos/docker-registry-wd-ex4100:3.1.1-bullseye
-ovelayos/docker-registry-wd-ex4100:latest
 ovelayos/docker-registry-ui-wd-ex4100:2.6.0-bullseye-r2
 ovelayos/docker-registry-ui-wd-ex4100:latest
 ```
 
 ## Portainer
 
-Despliega el contenido completo de `portainer-stack.yml`.
-
-Endpoints predeterminados:
+Deploy the complete `portainer-stack.yml`. It runs both:
 
 ```text
 Registry API: http://192.168.178.130:5000
 Registry UI:  http://192.168.178.130:5005
 ```
 
-Datos persistentes del Registry:
+Registry data is persisted at:
 
 ```text
 /mnt/HD/HD_a2/docker/registry
 ```
 
-## Registry local por HTTP
+The backend image is maintained separately in:
 
-El Docker daemon del EX4100 debe incluir:
-
-```json
-{
-  "insecure-registries": [
-    "192.168.178.130:5000"
-  ]
-}
+```text
+dart998/docker-registry-ex4100
 ```
 
-Puedes recargar esa configuración sin reiniciar el NAS:
+## Included patches
 
-```sh
-kill -HUP $(pidof dockerd)
-```
+- Debian Bullseye runtime for ARMv7 compatibility.
+- Uses Joxit's official `90-docker-registry-ui.sh` initializer.
+- OsCrisCloud logo in the navigation bar.
+- Simplified favicon without text.
+- `THEME=auto` with working light/dark switch.
+- Retry of transient tag-count requests before showing `Server not found`.
 
 ## Upstream
 
-La UI está basada en Joxit Docker Registry UI y mantiene la licencia AGPL-3.0 del proyecto upstream.
+The UI is built from Joxit Docker Registry UI 2.6.0 and remains subject to the upstream AGPL-3.0 license.
