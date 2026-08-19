@@ -5,7 +5,7 @@ s = p.read_text(encoding="utf-8")
 
 old = """      <span class=\"logo\">\n        <span><a href=\"{ router.home() }\">{ props.dockerRegistryUiTitle.trim() || \"Docker Registry UI\" }</a></span>"""
 
-new = """      <span class=\"logo\">\n        <a class=\"oscriscloud-brand-image\" href=\"{ router.home() }\" title=\"OsCrisCloud Docker Registry\">\n          <img src=\"oscriscloud-registry-logo.png\" alt=\"OsCrisCloud Docker Registry\" />\n        </a>\n        <span><a href=\"{ router.home() }\">{ props.dockerRegistryUiTitle.trim() || \"Docker Registry UI\" }</a></span>"""
+new = """      <span class=\"logo\">\n        <a class=\"oscriscloud-brand-image\" href=\"{ router.home() }\" title=\"OsCrisCloud Docker Registry\">\n          <img src=\"oscriscloud-registry-logo.svg\" alt=\"OsCrisCloud Docker Registry\" />\n        </a>\n        <span><a href=\"{ router.home() }\">{ props.dockerRegistryUiTitle.trim() || \"Docker Registry UI\" }</a></span>"""
 
 if old not in s:
     raise SystemExit("Expected navbar block not found")
@@ -23,7 +23,7 @@ p.write_text(s, encoding="utf-8")
 index = Path("/src/src/index.html")
 html = index.read_text(encoding="utf-8")
 needle = '    <meta name="viewport" content="width=device-width, initial-scale=1" />'
-replacement = needle + '\n    <link rel="icon" type="image/x-icon" href="favicon.ico" />\n    <link rel="icon" type="image/png" sizes="512x512" href="oscriscloud-registry-favicon.png" />'
+replacement = needle + '\n    <link rel="icon" type="image/svg+xml" href="oscriscloud-registry-favicon.svg" />'
 if needle not in html:
     raise SystemExit("Favicon insertion point not found")
 html = html.replace(needle, replacement, 1)
