@@ -10,17 +10,15 @@ WORKDIR /src
 RUN git clone --depth 1 --branch "${UI_VERSION}" https://github.com/Joxit/docker-registry-ui.git .
 
 COPY apply-branding.py /tmp/apply-branding.py
-COPY oscriscloud-registry-logo.png /src/src/oscriscloud-registry-logo.png
-COPY oscriscloud-registry-favicon.png /src/src/oscriscloud-registry-favicon.png
-COPY favicon.ico /src/src/favicon.ico
+COPY oscriscloud-registry-logo.svg /src/src/oscriscloud-registry-logo.svg
+COPY oscriscloud-registry-favicon.svg /src/src/oscriscloud-registry-favicon.svg
 
 RUN python3 /tmp/apply-branding.py
 RUN npm install
 RUN npm run build
 
-RUN cp /src/src/oscriscloud-registry-logo.png /src/dist/ \
-    && cp /src/src/oscriscloud-registry-favicon.png /src/dist/ \
-    && cp /src/src/favicon.ico /src/dist/favicon.ico
+RUN cp /src/src/oscriscloud-registry-logo.svg /src/dist/ \
+    && cp /src/src/oscriscloud-registry-favicon.svg /src/dist/
 
 FROM debian:bullseye-slim
 
