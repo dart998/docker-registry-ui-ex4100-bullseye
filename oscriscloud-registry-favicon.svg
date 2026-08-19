@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="OsCrisCloud Registry">
+  <rect width="64" height="64" rx="12" fill="#0a1422"/>
+  <path d="M10 20 31 10l23 9-22 11z" fill="#2f8df4" stroke="#76c0ff" stroke-width="1.5"/>
+  <path d="M10 20v25l22 9V30z" fill="#155fbe" stroke="#5aabff" stroke-width="1.5"/>
+  <path d="M32 30v24l22-11V19z" fill="#0d438e" stroke="#4b98e7" stroke-width="1.5"/>
+  <path d="M18 25v16M25 28v16M40 27v17M47 24v16" stroke="#8ac9ff" stroke-width="1.4" opacity=".8"/>
+</svg>
