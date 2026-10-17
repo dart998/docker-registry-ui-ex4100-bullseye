@@ -22,11 +22,18 @@ RUN cp /src/src/oscriscloud-registry-logo.svg /src/dist/ \
 
 FROM debian:bullseye-slim
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends nginx ca-certificates \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -f /etc/nginx/sites-enabled/default \
-    && rm -rf /usr/share/nginx/html/*
+RUN set -eux; \
+    printf '%s\n' \
+      'deb http://archive.debian.org/debian bullseye main' \
+      'deb http://archive.debian.org/debian bullseye-updates main' \
+      'deb http://archive.debian.org/debian-security bullseye-security main' \
+      > /etc/apt/sources.list; \
+    printf '%s\n' 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99archive; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends nginx ca-certificates; \
+    rm -rf /var/lib/apt/lists/*; \
+    rm -f /etc/nginx/sites-enabled/default; \
+    rm -rf /usr/share/nginx/html/*
 
 WORKDIR /usr/share/nginx/html
 
