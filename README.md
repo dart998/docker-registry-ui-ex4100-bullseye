@@ -27,7 +27,7 @@ ovelayos/docker-registry-ui-wd-ex4100:latest
 
 ## Portainer
 
-Deploy the complete `portainer-stack.yml`. It runs both:
+Deploy the complete `docker-compose.yml`. It runs both:
 
 ```text
 Registry API: http://192.168.178.130:5000
